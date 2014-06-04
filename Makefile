@@ -4,7 +4,7 @@ build:
 	@chruby-exec ruby -- nanoc
 
 upload:
-	@rsync -rapv --delete \
+	@rsync -rapv -e "/usr/bin/ssh" --delete \
 		./output/ l00s9r:/home/v/viettug.org.static/www/ \
 		--exclude=Makefile \
 		--exclude=".git*" \
