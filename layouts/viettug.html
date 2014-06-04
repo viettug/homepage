@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%= @item[:title]%> - VietTUG - Vietnamese TeX Users Group</title>
+    <link rel="stylesheet" type="text/css" href="/style.css" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <!--
+    <link href="http://viettug.org/rss/" rel="alternate" type="application/rss+xml" title="News from VietTUG">
+    -->
+  </head>
+  <body>
+    <div id="cssmenu">
+      <ul class="pureCssMenu pureCssMenum">
+        <li class="pureCssMenui"><a class="pureCssMenui" href="/index.html">Trang đầu</a></li>
+        <li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Người dùng</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+        <ul class="pureCssMenum">
+          <li class="pureCssMenui"><a class="pureCssMenui" href="/news/">Tin tức</a></li>
+          <li class="pureCssMenui"><a class="pureCssMenui" href="/about/">Giới thiệu</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+        <li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Kết nối</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+        <ul class="pureCssMenum">
+          <li class="pureCssMenui"><a class="pureCssMenui" href="https://twitter.com/viettug">Twitter</a></li>
+          <li class="pureCssMenui"><a class="pureCssMenui" href="https://facebook.com/viettug/">Facebook</a></li>
+          <li class="pureCssMenui"><a class="pureCssMenui" href="/lists/">Nhóm thư</a></li>
+          <li class="pureCssMenui"><a class="pureCssMenui" href="/contact/">Liên hệ</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+      </ul>
+    </div>
+
+    <div id="main">
+      <% if @item[:title] %>
+      <h1><%= @item[:title] %></h1>
+        <%
+          metas = []
+          if @item[:author] or @item[:authors]
+            metas << "<strong>Tác giả:</strong> #{item[:author] ||@item[:authors]}"
+          end
+          if @item[:origin]
+            metas << "<strong>Bài gốc:</strong> <a href=\"#{@item[:origin]}\">#{@item[:origin]}</a>"
+          end
+          if @item[:translators] or @item[:translator]
+            metas << "<strong>Người dịch:</strong> #{item[:translators] ||@item[:translator]}"
+          end
+          parent_post = File.dirname(@item.identifier)
+          if parent_post != "/" and not @item[:virtual]
+            metas << "<strong>Bài mẹ:</strong> <a href=\"#{parent_post}\">#{parent_post}</a>"
+          end
+        %>
+        <% if not metas.empty? %>
+        <p>
+          <%= metas.join("\n<br />\n")%>
+        </p>
+        <% end %>
+      <% end %>
+      <%= yield %>
+      <% if @item[:license] %>
+      <pre class="license">
+        This page is published under a <a href="http://creativecommons.org/licenses/by-sa/3.0/vn">CC BY-SA 3.0</a> license.
+      </pre>
+      <% end %>
+    </div>
+  </body>
+</html>
