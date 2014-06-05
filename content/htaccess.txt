@@ -1,0 +1,73 @@
+AddCharset UTF-8 .html
+AddCharset UTF-8 .txt
+
+Options FollowSymLinks
+
+RewriteEngine On
+
+RewriteBase /
+
+RewriteCond %{REQUEST_URI} ^rss/home(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^rss/forum(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^rss/activity(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^rss/blog(/?)$ [NC,OR]
+
+RewriteRule ^rss/home(/?)$ http://viettug.org/projects/viettug/news?format=atom [L]
+RewriteRule ^rss/forum(/?)$ http://viettug.org/projects/activity/viettug?format=atom&show_messages=1 [L]
+RewriteRule ^rss/blog(/?)$ http://viettug.org/projects/viettug/blogs?format=atom [L]
+RewriteRule ^rss/activity(/?)$ http://viettug.org/projects/activity/viettug?format=atom [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_URI} ^forum/([0-9]+)(/?) [NC,OR]
+RewriteCond %{REQUEST_URI} ^forum/box/([0-9]+)(/?) [NC,OR]
+RewriteCond %{REQUEST_URI} ^sbfaq/(.+)(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^wiki/(.+)(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^wiki/([^/]+)/edit/?$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^code/([0-9a-z]+)(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^code/([0-9a-z]+)/plain$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^code/code.([0-9a-z]+).html$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^code/code.([0-9a-z]+).txt$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^oae/(.*)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^ao/content/view/([0-9]+)/?.*$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^ao/component/option,com_simpleboard/func,view/id,([0-9]+)/?.*$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^ao/component/option,com_simpleboard/.*func,view/id,([0-9]+)/?.*$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^ao/component/option,com_simpleboard/.*func,showcat/catid,([0-9]+)/?.*$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^.*func=showcat&catid=([0-9]+).*$ [NC,OR]
+
+#http://viettug.org/index.php?option=com_simpleboard&Itemid=28&func=showcat&catid=5
+
+RewriteRule ^oae/(.*)$ http://download.tuxfamily.org/viettug/2005-2008/code/$1 [L]
+RewriteRule ^ao/component/option,com_simpleboard/.*func,view/id,([0-9]+)/?.*$ http://download.tuxfamily.org/viettug/2005-2008/forum.$1.html [L,NE]
+RewriteRule ^ao/component/option,com_simpleboard/.*func,showcat/catid,([0-9]+)/?.*$ http://download.tuxfamily.org/viettug/2005-2008/cat.$1.html [L,NE]
+RewriteRule ^.*func=showcat&catid=([0-9]+).*$  http://download.tuxfamily.org/viettug/2005-2008/cat.$1.html [L,NE]
+RewriteRule ^ao/content/view/([0-9]+)/?.*$  http://download.tuxfamily.org/viettug/2005-2008/news.$1.html [L,NE]
+RewriteRule ^code/code.([0-9a-z]+).html$ http://download.tuxfamily.org/viettug/2005-2008/code.$1.html [L,NE]
+RewriteRule ^code/code.([0-9a-z]+).txt$ http://download.tuxfamily.org/viettug/2005-2008/code.$1.txt [L,NE]
+RewriteRule ^code/([0-9a-z]+)(/?)$	http://download.tuxfamily.org/viettug/2005-2008/code.$1.html [L,NE]
+RewriteRule ^code/([0-9a-z]+)(/plain)$	http://download.tuxfamily.org/viettug/2005-2008/code.$1.txt [L,NE]
+RewriteRule ^wiki/(.+)(/?)$	http://viettug.org/wiki/tex/$1 [L,NE]
+RewriteRule ^sbfaq/(.+)(/?)$	http://download.tuxfamily.org/viettug/2005-2008/ [L,NE]
+RewriteRule ^forum/([0-9]+)(/?)$	http://download.tuxfamily.org/viettug/2005-2008/forum.$1.html [L,NE]
+RewriteRule ^forum/box/([0-9]+)(/?)$	http://download.tuxfamily.org/viettug/2005-2008/index.html [L,NE]
+
+RewriteCond %{REQUEST_URI} ^forum(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^sbfaq(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^wiki(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^blog(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^code(/?)$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^ao(/?)$ [NC,OR]
+
+# redirect to viettug.org
+RewriteRule ^wiki(/?)$	http://viettug.org/wiki/tex [L]
+RewriteRule ^code(/?)$  http://viettug.org/projects/show/tex [L]
+RewriteRule ^forum(/?)$	http://viettug.org/projects/tex/boards  [L]
+RewriteRule ^sbfaq(/?)$	http://viettug.org/wiki/tex/faq  [L]
+RewriteRule ^blog(/?)$	http://viettug.org/projects/tex/blogs  [L]
+RewriteRule ^ao(/?)$	http://viettug.org/wiki/tex  [L]
+
+RewriteCond %{REQUEST_URI} ^(.*)$ [NC,OR]
+RewriteRule ^/?$ http://download.tuxfamily.org/viettug/2005-2008/index.html [L,NE]
+RewriteRule ^.*\.php$ http://download.tuxfamily.org/viettug/2005-2008/index.html [L,NE]
+RewriteRule ^(.*)$ http://download.tuxfamily.org/viettug/2005-2008/$1 [L,NE]
